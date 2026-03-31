@@ -1,0 +1,534 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Parlons stratégie — Sophie, Consultante Digitale & IA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+:root {
+  --red: #ff5757;
+  --purple: #7c3aed;
+  --purple-soft: rgba(124,58,237,0.12);
+  --purple-border: rgba(124,58,237,0.3);
+  --dark: #0d0d0d;
+  --dark2: #161616;
+  --dark3: #1e1e1e;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #efefef;
+  --muted: #777;
+  --muted2: #aaa;
+  --font-d: 'DM Serif Display', Georgia, serif;
+  --font-b: 'DM Sans', sans-serif;
+}
+
+
+html, body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: var(--font-b);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+
+/* PAGE */
+.wrap {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding-bottom: 2rem;
+  animation: up 0.7s ease both;
+}
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--purple-soft);
+  border: 1px solid var(--purple-border);
+  border-radius: 100px;
+  padding: 5px 15px;
+  font-size: 11.5px;
+  color: #c4a7ff;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+.pulse {
+  width: 7px; height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.hero h1 {
+  font-family: var(--font-d);
+  font-size: clamp(1.9rem, 5.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.18;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; color: var(--red); }
+.hero p {
+  font-size: 0.95rem;
+  color: var(--muted2);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+
+/* CHAT SHELL */
+.shell {
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--dark2);
+  animation: up 0.7s 0.1s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+
+/* CHAT HEADER */
+.c-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.ava {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--red) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 500; color: #fff;
+  flex-shrink: 0;
+  font-family: var(--font-d);
+}
+.c-head-text strong { display: block; font-size: 14px; font-weight: 500; }
+.c-head-text span { font-size: 12px; color: var(--muted); }
+.online-dot {
+  width: 8px; height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  margin-left: auto;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.2);
+}
+
+
+/* MESSAGES */
+.msgs {
+  padding: 20px 18px;
+  min-height: 380px;
+  max-height: 460px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+.msgs::-webkit-scrollbar { width: 3px; }
+.msgs::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+
+.msg {
+  max-width: 84%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  animation: msgIn 0.25s ease both;
+}
+.msg.a {
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  color: var(--text);
+}
+.msg.u {
+  background: linear-gradient(135deg, var(--purple), #a855f7);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  align-self: flex-end;
+}
+.msg.typing { color: var(--muted); font-style: italic; font-size: 13px; }
+
+
+/* QUICK REPLIES */
+.qr-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 2px;
+}
+.qr {
+  padding: 7px 14px;
+  border-radius: 22px;
+  border: 1px solid var(--purple-border);
+  background: var(--purple-soft);
+  color: #c4a7ff;
+  font-size: 12.5px;
+  font-family: var(--font-b);
+  cursor: pointer;
+  transition: all 0.18s;
+  line-height: 1.4;
+}
+.qr:hover {
+  background: rgba(124,58,237,0.22);
+  border-color: rgba(124,58,237,0.6);
+  color: #dbc8ff;
+}
+
+
+/* CTA RDV */
+.rdv-card {
+  margin: 4px 0 2px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(255,87,87,0.08));
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  max-width: 84%;
+  align-self: flex-start;
+}
+.rdv-card p { font-size: 13px; color: var(--muted2); line-height: 1.5; }
+.rdv-card strong { display: block; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+.rdv-btn {
+  padding: 9px 18px;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: var(--font-b);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+.rdv-btn:hover { opacity: 0.85; }
+
+
+/* INPUT */
+.c-foot {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: rgba(255,255,255,0.015);
+}
+.c-input {
+  flex: 1;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 15px;
+  font-size: 14px;
+  font-family: var(--font-b);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.c-input:focus { border-color: rgba(124,58,237,0.45); }
+.c-input::placeholder { color: var(--muted); }
+.c-send {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.c-send:hover { opacity: 0.88; }
+.c-send:active { transform: scale(0.95); }
+.c-send svg { width: 17px; height: 17px; fill: #fff; }
+
+
+/* SOCIAL PROOF */
+.proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 1.8rem;
+  flex-wrap: wrap;
+  animation: up 0.7s 0.2s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.proof-item svg { width: 14px; height: 14px; opacity: 0.5; }
+.divider { width: 1px; height: 16px; background: var(--border2); }
+
+
+/* SPINNER */
+.spin {
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: rot 0.7s linear infinite;
+  display: inline-block;
+}
+
+
+/* KEYFRAMES */
+@keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+@keyframes msgIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes rot { to { transform:rotate(360deg); } }
+
+
+@media (max-width: 480px) {
+  .proof { gap: 12px; }
+  .msgs { min-height: 320px; max-height: 400px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="live-badge"><span class="pulse"></span>Disponible maintenant</div>
+    <h1>Votre contenu mérite<br>de <em>vraiment performer</em></h1>
+    <p>Posez-moi vos questions — je vous aide à voir si une stratégie digitale & IA peut transformer votre média.</p>
+  </div>
+
+
+  <!-- CHAT -->
+  <div class="shell">
+    <div class="c-head">
+      <div class="ava">S</div>
+      <div class="c-head-text">
+        <strong>Sophie</strong>
+        <span>Consultante Stratégie Digitale & IA pour les médias</span>
+      </div>
+      <div class="online-dot"></div>
+    </div>
+
+
+    <div class="msgs" id="msgs"></div>
+
+
+    <div class="c-foot">
+      <input class="c-input" id="inp" type="text" placeholder="Décrivez votre situation…" onkeydown="if(event.key==='Enter')send()" />
+      <button class="c-send" onclick="send()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- SOCIAL PROOF -->
+  <div class="proof">
+    <div class="proof-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm1 14.93V17a1 1 0 00-2 0v-.07A8 8 0 014.07 9H5a1 1 0 000-2h-.93A8 8 0 0111 4.07V5a1 1 0 002 0v-.93A8 8 0 0119.93 11H19a1 1 0 000 2h.93A8 8 0 0113 16.93z"/></svg>
+      Médias · Pure players · Créateurs
+    </div>
+    <div class="divider"></div>
+    <div class="proof-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Stratégie · IA · Croissance
+    </div>
+    <div class="divider"></div>
+    <div class="proof-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Réponse en moins de 24h
+    </div>
+  </div>
+
+
+</div>
+
+
+<script>
+const SYSTEM = `Tu es Sophie, consultante en stratégie digitale et IA pour les médias. Tu réponds directement en ton propre nom sur ton site web à des prospects qui visitent ta page.
+
+
+Ton positionnement :
+Tu aides les médias, pure players et créateurs à transformer leur contenu en levier de croissance (audience, engagement, revenus) grâce à des stratégies éditoriales et digitales à forte valeur ajoutée, augmentées par l'IA.
+
+
+Tes 4 offres :
+1. Refonte de stratégie éditoriale (audit + recommandations)
+2. Création de formats à fort impact (réseaux sociaux, vidéo, éditorial)
+3. Systèmes de production et diffusion scalables
+4. Intégration intelligente de l'IA (ex : Claude) dans les workflows éditoriaux
+
+
+Ton approche en 3 piliers :
+→ Vision éditoriale & compréhension fine des médias
+→ Logique business : audience → engagement → conversion
+→ Utilisation stratégique de l'IA (pas gadget)
+
+
+Clients : médias traditionnels, pure players digitaux, créateurs de contenu structurés.
+
+
+Ta mission dans cette conversation :
+- Accueillir chaleureusement le visiteur
+- Comprendre sa situation (type de média/organisation, problème principal, objectifs)
+- Lui montrer que tu comprends ses enjeux (saturation de contenu, pression sur la monétisation, transformation des usages)
+- Lui présenter naturellement tes offres quand c'est pertinent
+- L'amener à vouloir réserver un appel découverte de 30 min avec toi
+- Si le prospect semble qualifié et intéressé, propose explicitement le RDV avec la phrase : "JE_PROPOSE_RDV"
+
+
+Règles importantes :
+- Tu parles à la 1ère personne (c'est toi Sophie qui réponds)
+- Ton ton est professionnel, humain, direct — jamais de jargon creux
+- Maximum 3-4 phrases par réponse
+- Pose une question ouverte à chaque fois pour faire avancer la conversation
+- Si le prospect te parle d'un problème concret, montre que tu as déjà aidé des cas similaires
+- Quand tu détectes que le prospect est prêt pour un RDV, inclus exactement "JE_PROPOSE_RDV" dans ta réponse`;
+
+
+let history = [];
+let rdvShown = false;
+
+
+const msgsEl = document.getElementById('msgs');
+
+
+function addMsg(html, role, isTyping) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + role + (isTyping ? ' typing' : '');
+  d.innerHTML = html.replace(/\n/g, '<br>');
+  msgsEl.appendChild(d);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+  return d;
+}
+
+
+function addQR(options) {
+  const wrap = document.createElement('div');
+  wrap.className = 'qr-wrap';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'qr';
+    btn.textContent = opt;
+    btn.onclick = () => { wrap.remove(); sendText(opt); };
+    wrap.appendChild(btn);
+  });
+  msgsEl.appendChild(wrap);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+
+function showRDV() {
+  if (rdvShown) return;
+  rdvShown = true;
+  const card = document.createElement('div');
+  card.className = 'rdv-card';
+  card.innerHTML = `
+    <div>
+      <strong>Parlons de votre projet</strong>
+      <p>Un appel de 30 min pour voir concrètement comment je peux vous aider. Sans engagement.</p>
+    </div>
+    <button class="rdv-btn" onclick="openRDV()">Réserver →</button>
+  `;
+  msgsEl.appendChild(card);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+
+function openRDV() {
+  // Remplacez cette URL par votre lien Calendly
+  window.open('https://calendly.com', '_blank');
+}
+
+
+async function sendText(txt) {
+  addMsg(txt, 'u');
+  history.push({ role: 'user', content: txt });
+  await callAPI();
+}
+
+
+async function send() {
+  const inp = document.getElementById('inp');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = '';
+  await sendText(txt);
+}
+
+
+async function callAPI() {
+  const typing = addMsg('…', 'a', true);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: history
+      })
+    });
+    const data = await res.json();
+    let reply = data.content.map(b => b.text || '').join('');
+    const proposeRDV = reply.includes('JE_PROPOSE_RDV');
+    reply = reply.replace(/JE_PROPOSE_RDV/g, '').trim();
+    typing.remove();
+    addMsg(reply, 'a');
+    history.push({ role: 'assistant', content: reply });
+    if (proposeRDV) showRDV();
+  } catch(e) {
+    typing.remove();
+    addMsg("Une erreur s'est produite. Réessayez dans un instant.", 'a');
+  }
+}
+
+
+// Message d'accueil + quick replies au chargement
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    addMsg("Bonjour ! Je suis Sophie 👋<br><br>Je travaille avec des médias, pure players et créateurs pour transformer leur stratégie de contenu en moteur de croissance réel — avec l'IA comme levier, pas comme gadget.<br><br>Qu'est-ce qui vous amène sur mon site aujourd'hui ?", 'a');
+    setTimeout(() => {
+      addQR([
+        "Mon audience stagne",
+        "Je veux intégrer l'IA",
+        "Mes revenus sont sous pression",
+        "Je cherche à structurer ma stratégie",
+        "Je veux en savoir plus sur vos services"
+      ]);
+    }, 200);
+  }, 400);
+});
+</script>
+</body>
+</html>
